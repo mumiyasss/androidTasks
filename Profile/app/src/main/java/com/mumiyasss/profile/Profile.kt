@@ -5,4 +5,7 @@ import java.io.Serializable
 
 data class Profile (var firstName: String,
                     var lastName: String,
-                    var age: Int) : Serializable
+                    var age: String,
+                    var phone: String,
+                    var inst: String,
+                    var vk: String) : Serializable

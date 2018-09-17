@@ -22,9 +22,18 @@ class ProfileFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         v = inflater.inflate(R.layout.fragment_profile, container, false)
-        profile = Profile("Kolya", "Grebnev", 18)
-
-        return view
+        profile = Profile("Kolya", "Grebnev", "18", "+7 (800) 555 35-35",
+                "@ksftx", "@nikolaygrebnev")
+        v.share.setOnClickListener {
+            var i = Intent(Intent.ACTION_SEND)
+            i.type = "text/plain"
+            i.putExtra(Intent.EXTRA_SUBJECT, "My Profile")
+            i.putExtra(Intent.EXTRA_TEXT, profile.toString() )
+            i = Intent.createChooser(i, "Share your profile via")
+            startActivity(i)
+        }
+        updateUI(profile)
+        return v
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -56,7 +65,10 @@ class ProfileFragment : Fragment() {
 
     private fun updateUI(profile: Profile) {
         v.name.text = profile.firstName + " " + profile.lastName
-        v.age.text = profile.age.toString()
+        v.age.text = profile.age
+        v.phone.text = profile.phone
+        v.vk.text = profile.vk
+        v.inst.text = profile.inst
 
     }
 

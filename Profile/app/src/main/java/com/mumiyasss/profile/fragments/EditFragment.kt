@@ -1,21 +1,52 @@
 package com.mumiyasss.profile.fragments
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.mumiyasss.profile.Profile
 import com.mumiyasss.profile.R
+import kotlinx.android.synthetic.main.fragment_edit.view.*
 
 
 class EditFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_edit, container, false)
+    private lateinit var v: View
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
-        return view
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        v = inflater.inflate(R.layout.fragment_edit, container, false)
+
+        return v
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_edit, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.submit -> {
+
+                val profile  =  Profile(v.eFirstName.text.toString(),
+                                        v.eLastName.text.toString(),
+                                        v.eAge.text.toString(),
+                                        v.ePhone.text.toString(),
+                                        v.eInst.text.toString(),
+                                        v.eVk.text.toString())
+
+                val resultingData = Intent()
+                resultingData.putExtra(EXTRA_PROFILE, profile)
+                activity!!.setResult(Activity.RESULT_OK, resultingData)
+                activity!!.finish()
+                true
+            }
+            else -> false
+        }
     }
 
     companion object {
